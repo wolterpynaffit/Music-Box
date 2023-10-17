@@ -8,9 +8,7 @@ from sqlalchemy import MetaData
 from flask import Flask
 from config import db
 
-# Models go here!
-
-# =============================== USER ==================================#
+# =============================== USER ==============================
 
 
 class User(db.Model, SerializerMixin):
@@ -22,11 +20,13 @@ class User(db.Model, SerializerMixin):
     password = db.Column(db.String, nullable=False)
 
     playlist_songs = db.relationship(
-        "PlaylistSongs", back_populates='contributor')
+        "PlaylistSongs", back_populates='contributor'
+    )
     song = association_proxy('playlist_songs', 'song')
-    serialize_rules = ('-playlist_songs.contributor', )
+    playlist = db.relationship("Playlist", back_populates='contributor')
+    serialize_rules = ('-playlist_songs', '-playlist')
 
-# =============================== PLAYLIST =============================#
+# =============================== PLAYLIST=============================
 
 
 class Playlist(db.Model, SerializerMixin):
@@ -39,10 +39,10 @@ class Playlist(db.Model, SerializerMixin):
 
     playlist_songs = db.relationship(
         "PlaylistSongs", back_populates='playlist')
+    contributor = db.relationship('User', back_populates='playlist')
     song = association_proxy('playlist_songs', 'song')
-    serialize_rules = ('-playlist_songs.playlist', )
-
-# =============================== SONG ==================================#
+    serialize_rules = ('-playlist_songs.playlist', '-contributor.playlist')
+# =============================== SONG ==============================
 
 
 class Song(db.Model, SerializerMixin):
@@ -55,9 +55,8 @@ class Song(db.Model, SerializerMixin):
 
     playlist_songs = db.relationship("PlaylistSongs", back_populates='song')
     playlist = association_proxy('playlist_songs', 'playlist')
-    serialize_rules = ('-playlist_songs.song', )
-
-# =============================== PLAYLIST SONGS ==================================#
+    serialize_rules = ('-playlist_songs.song',)
+# =========================== PLAYLIST SONGS  ==========================
 
 
 class PlaylistSongs(db.Model, SerializerMixin):
@@ -69,7 +68,7 @@ class PlaylistSongs(db.Model, SerializerMixin):
     contributor_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     playlist = db.relationship("Playlist", back_populates='playlist_songs')
-    song = db.relationship("Song", back_populates='playlist_songs')
+    song = db.relationship('Song', back_populates='playlist_songs')
     contributor = db.relationship("User", back_populates='playlist_songs')
     serialize_rules = ('-playlist.playlist_songs',
                        '-song.playlist_songs', '-contributor.playlist_songs')
