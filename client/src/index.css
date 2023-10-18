@@ -1,0 +1,30 @@
+/* :root {
+  --bg: #282c34;
+  --header: #fff;
+  --link: #61dafb;
+  --text: hsla(0, 0%, 100%, 0.88);
+}
+ */
+
+
+ * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  
+ }
+
+ h1 {
+  padding: 4rem;
+  text-align: center;
+ }
+
+
+ nav {
+  text-align: center;
+ }
+
+ form {
+  text-align: center; 
+  padding: 1rem;
+ }
