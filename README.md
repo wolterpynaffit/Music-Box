@@ -1,3 +1,3 @@
-# Tiffany's P5 Project
+# MusicBox
 
-Rewrite this later!
+It's a box... for music!
