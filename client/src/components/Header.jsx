@@ -5,11 +5,9 @@ function Header () {
   return (
     <>
     <header>
-        <h1> Music Box </h1>
-      
-        <nav>
-            <Link to = "/"> home </Link>
-            <Link to  = "/playlists"> mylist </Link>
+       <nav>
+            <Link to = "/"> Home </Link>
+            <Link to  = "/playlists"> My Playlist </Link>
         </nav>
     </header>
     </>

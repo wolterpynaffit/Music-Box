@@ -14,9 +14,24 @@
   
  }
 
+ div {
+  padding: 2rem;
+ }
+
  h1 {
-  padding: 4rem;
+  padding: 4rem 1rem;
   text-align: center;
+  font-size: 15rem;
+ }
+
+ .get_started{
+  text-align: center;
+  padding: 8rem;
+ }
+
+ .welcome {
+  text-align: center;
+  font-size: 2rem;
  }
 
 
@@ -28,3 +43,4 @@
   text-align: center; 
   padding: 1rem;
  }
+
