@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Form = () => {
+function Form () {
     function handlePost(e){
         e.preventDefault()
     

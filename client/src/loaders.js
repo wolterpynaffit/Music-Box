@@ -1,8 +1,6 @@
 export async function getPlayListLoader(){
-    const res = await fetch('/playlists')
+    const res = await fetch('http://localhost:3000/paylists')
     const allPlayLists = await res.json()
-
-    console.log(allPlayLists)
     return { allPlayLists }
 }
 

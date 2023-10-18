@@ -8,7 +8,7 @@ import { Outlet } from 'react-router-dom'
 
 function App() {
   // const navigate = useNavigate()
-  const [playlist, setPlaylist] = useState([])
+  // const [playlist, setPlaylist] = useState([])
 
 
   // useEffect(()=> {
