@@ -1,18 +1,23 @@
 import React from 'react'
 import {useState} from 'react';
 import {useLoaderData, useNavigate} from "react-router-dom"
+import IndividualPlaylist from './IndividualPlaylist';
 
 
 function PlayList () {
 
-// const {allPlaylists} = useLoaderData()
-// console.log(allPlaylists)
+const {allPlayLists} = useLoaderData()
+console.log(useLoaderData())
+
+const mappedPlaylist = allPlayLists.map(playlist => <IndividualPlaylist key = {playlist.id} playlist={playlist}/>)
   return (
 
     <>
     <h2> Nothing will be here until playlist is created </h2>
-
-    {/* {allPlaylists.map(playlist => <div key = {playlist.id} > {playlist.album}</div> )} */}
+    
+    <div>
+    {mappedPlaylist}
+    </div>
 
   {/* 
     ---- need to create a toggle message/ something like if no playlist has been created, then display a message to a user

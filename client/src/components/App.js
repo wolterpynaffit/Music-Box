@@ -11,13 +11,13 @@ function App() {
   const [playlist, setPlaylist] = useState([])
 
 
-  useEffect(()=> {
-    fetch('/songs')
-    .then( response => response.json())
-    .then(playlists => setPlaylist(playlists))
-  },[])
+  // useEffect(()=> {
+  //   fetch('/songs')
+  //   .then( response => response.json())
+  //   .then(playlists => setPlaylist(playlists))
+  // },[])
 
-  console.log(playlist)
+  // console.log(playlist)
 
   return (
     <>
