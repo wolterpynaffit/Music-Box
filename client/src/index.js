@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './components/App';
 import Home from './components/Home';
 import PlayList from './components/PlayList';
+import Authenticate from './components/Authenticate';
 
 
 // LOADER 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
         path:"/playlists",
         element: <PlayList/>,
         loader: getPlayListLoader
+      },
+      {
+        path:"/authenticate",
+        element: <Authenticate/>,
       },
     
     ]

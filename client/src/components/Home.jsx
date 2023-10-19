@@ -5,17 +5,18 @@ import Form from './Form'
 const Home = () => {
   return (
     <>
-    <div>
+    <div className = 'vh-100'>
       <p className = 'welcome'> Welcome to </p>
       <h1> Music Box </h1>
+      <div className="get_started">
+        <button>BUTTON</button>
+        <p> click here to get started</p>
+      </div>
     </div>
-    <div className="get_started">
-      <button>
-        BUTTON
-      </button>
-      <p> click here to get started</p>
-    </div>
+
+    <div className='vh-100'>
         <Form/>
+    </div>
     </>
   )
 }
