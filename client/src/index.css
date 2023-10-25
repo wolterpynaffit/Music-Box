@@ -14,6 +14,10 @@
   
  }
 
+ html {
+  scroll-behavior: smooth;
+ }
+
  div {
   padding: 2rem;
  }
@@ -72,4 +76,47 @@
 .form-container button {
   display: block;
   margin-top: 20px;  /* Space between the last input and the button */
+}
+
+input {
+  height: 4rem;
+  width: 20rem;
+  border-radius: 5rem;
+}
+
+
+/* ------------------------  PLAYLIST CARD  --------------------- */
+
+/* IndividualPlaylist.css */
+
+.playlists-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 20px;
+  justify-items: center;
+  align-items: center;
+}
+
+.playlist-card {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Media Query for larger screens */
+@media (min-width: 600px) {
+  .playlists-container {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+.playlist-card h2 {
+  margin-bottom: 10px;
 }

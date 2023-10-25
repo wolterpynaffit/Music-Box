@@ -24,7 +24,7 @@ if __name__ == '__main__':
         # Seed users
         print("Creating users...")
         user_list = []
-        for _ in range(15):  # creating 15 random users
+        for _ in range(1):  # creating 15 random users
             user = User(
                 username=fake.user_name(),
                 email=fake.email(),
@@ -46,30 +46,32 @@ if __name__ == '__main__':
             song_list.append(song)
         db.session.add_all(song_list)
         db.session.commit()
+# -----------------------------------------------------------------------
 
         # Seed playlists
         print("Creating playlists...")
         playlist_list = []
-        for user in user_list:  # creating a playlist for each user
+        for _ in range(3):  # creating a playlist for each user
             playlist = Playlist(
                 title=f"{user.username}'s Favorites",
                 description=f"Some of {user.username}'s favorite tracks.",
-                creator_id=user.id
+                user_id=user.id
             )
             playlist_list.append(playlist)
         db.session.add_all(playlist_list)
         db.session.commit()
 
+# -----------------------------------------------------------------------
         # Seed playlist songs
         print("Creating playlist songs...")
         playlist_song_list = []
         for playlist in playlist_list:
             # adding 5 random songs to each playlist
-            for _ in range(1):
+            for _ in range(6):
                 ps = PlaylistSongs(
                     playlist=playlist,
                     song=rc(song_list),
-                    contributor_id=playlist.creator_id
+
                 )
                 playlist_song_list.append(ps)
         db.session.add_all(playlist_song_list)

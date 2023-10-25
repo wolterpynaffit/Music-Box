@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: bfa18bcb994d
+Revision ID: a540892de598
 Revises: 
-Create Date: 2023-10-18 13:28:16.767902
+Create Date: 2023-10-23 22:46:41.126119
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'bfa18bcb994d'
+revision = 'a540892de598'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -39,8 +39,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('description', sa.String(), nullable=True),
-    sa.Column('creator_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['creator_id'], ['users.id'], name=op.f('fk_playlists_creator_id_users')),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_playlists_user_id_users')),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id')
     )
@@ -48,8 +48,6 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('playlist_id', sa.Integer(), nullable=True),
     sa.Column('song_id', sa.Integer(), nullable=True),
-    sa.Column('contributor_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['contributor_id'], ['users.id'], name=op.f('fk_playlist_songs_contributor_id_users')),
     sa.ForeignKeyConstraint(['playlist_id'], ['playlists.id'], name=op.f('fk_playlist_songs_playlist_id_playlists')),
     sa.ForeignKeyConstraint(['song_id'], ['songs.id'], name=op.f('fk_playlist_songs_song_id_songs')),
     sa.PrimaryKeyConstraint('id'),

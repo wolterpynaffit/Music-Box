@@ -19,12 +19,12 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
 
-    playlist_songs = db.relationship(
-        "PlaylistSongs", back_populates='contributor'
-    )
-    song = association_proxy('playlist_songs', 'song')
-    playlist = db.relationship("Playlist", back_populates='contributor')
-    serialize_rules = ('-playlist_songs', '-playlist')
+    # playlist_songs = db.relationship(
+    #     "PlaylistSongs", back_populates='contributor'
+    # )
+    # song = association_proxy('playlist_songs', 'song')
+    # playlist = db.relationship("Playlist", back_populates='contributor')
+    # serialize_rules = ('-playlist_songs', '-playlist')
 
 # =============================== PLAYLIST=============================
 
@@ -35,13 +35,17 @@ class Playlist(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     title = db.Column(db.String, nullable=False)
     description = db.Column(db.String)
-    creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     playlist_songs = db.relationship(
-        "PlaylistSongs", back_populates='playlist')
-    contributor = db.relationship('User', back_populates='playlist')
+        'PlaylistSongs', back_populates='playlist')
+    serialize_rules = ('-playlist_songs.playlist',)
     song = association_proxy('playlist_songs', 'song')
-    serialize_rules = ('-playlist_songs.playlist', '-contributor.playlist')
+
+    # playlist_songs = db.relationship(
+    #     "PlaylistSongs", back_populates='playlist')
+    # song = association_proxy('playlist_songs', 'song')
+    # serialize_rules = ('-playlist_songs.playlist', '-contributor.playlist')
 # =============================== SONG ==============================
 
 
@@ -53,10 +57,19 @@ class Song(db.Model, SerializerMixin):
     artist = db.Column(db.String, nullable=False)
     album = db.Column(db.String)
 
-    playlist_songs = db.relationship("PlaylistSongs", back_populates='song')
-    playlist = association_proxy('playlist_songs', 'playlist')
+    playlist_songs = db.relationship('PlaylistSongs', back_populates='song')
     serialize_rules = ('-playlist_songs.song',)
+    # dont innclude song attribute
+    playlist = association_proxy('playlist_songs', 'playlist')
+    # going through table to get playlist attribute
+
+    # playlist_songs = db.relationship("PlaylistSongs", back_populates='song')
+    # playlist = association_proxy('playlist_songs', 'playlist')
+    # serialize_rules = ('-playlist_songs.song',)
 # =========================== PLAYLIST SONGS  ==========================
+
+# this is the joiner for (playlist and song)
+# this is the created playlist with songs in them
 
 
 class PlaylistSongs(db.Model, SerializerMixin):
@@ -65,10 +78,14 @@ class PlaylistSongs(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     playlist_id = db.Column(db.Integer, db.ForeignKey('playlists.id'))
     song_id = db.Column(db.Integer, db.ForeignKey('songs.id'))
-    contributor_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    playlist = db.relationship("Playlist", back_populates='playlist_songs')
+    playlist = db.relationship('Playlist', back_populates='playlist_songs')
     song = db.relationship('Song', back_populates='playlist_songs')
-    contributor = db.relationship("User", back_populates='playlist_songs')
-    serialize_rules = ('-playlist.playlist_songs',
-                       '-song.playlist_songs', '-contributor.playlist_songs')
+
+    serialize_rules = ('-song.playlist_songs', '-playlist.playlist_songs')
+    # this is the attribute to the song and playlist table
+
+    # playlist = db.relationship("Playlist", back_populates='playlist_songs')
+    # song = db.relationship('Song', back_populates='playlist_songs')
+    # serialize_rules = ('-playlist.playlist_songs',
+    #                    '-song.playlist_songs', '-contributor.playlist_songs')

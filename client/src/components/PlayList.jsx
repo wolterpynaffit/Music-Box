@@ -5,6 +5,7 @@ import IndividualPlaylist from './IndividualPlaylist';
 
 
 function PlayList () {
+const [display, setDisplay] =  useState([])
 
 const {allPlayLists} = useLoaderData()
 console.log(useLoaderData())
@@ -15,7 +16,7 @@ const mappedPlaylist = allPlayLists.map(playlist => <IndividualPlaylist key = {p
     <>
     <h2> Nothing will be here until playlist is created </h2>
     
-    <div>
+    <div className="playlist-container">
     {mappedPlaylist}
     </div>
 

@@ -9,7 +9,7 @@ function Form () {
         // notes on form data below -- FormData specific to forms
         const formData = new FormData(e.target)
     
-        fetch('http://127.0.0.1:5555/playlists', {
+        fetch(`http://127.0.0.1:5555/playlists`, {
           method: 'POST',
           body: formData
         })
@@ -29,10 +29,11 @@ function Form () {
       }
   return (
     <>
-    <div className = 'form-container'>
+    
+    <div className = 'form-container' id='form-id'>
       <form onSubmit={handlePost}>
         <label>Name:
-          <input type='text' name='title' />
+          <input type='text' name='title'/>
         </label>
         <br />
         <label>Description:

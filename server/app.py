@@ -3,12 +3,17 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, jsonify
-
+from models import User, Playlist, Song, PlaylistSongs
+from flask_cors import CORS
+from flask import request, jsonify, session
+from flask_bcrypt import Bcrypt
 # Local imports
+from spotify import get_token
 # application and connection to data
 from config import app, db
-from models import User, Playlist, Song, PlaylistSongs
+import ipdb
+import requests
+CORS(app)
 
 # Add your model imports
 
@@ -25,17 +30,19 @@ def index():
 @app.get('/playlists')
 def get_playlist():
     playlists = Playlist.query.all()
-
     playlist_dict = [playlist.to_dict() for playlist in playlists]
     return jsonify(playlist_dict), 200
+
+# current user.id
 
 
 @app.get('/playlist/<int:id>')
 def get_playlist_id(id):
 
-    playlist = Playlist.query.filter(Playlist.id == id).first()
-    if playlist:
-        return jsonify(playlist.to_dict()), 200
+    playlists = Playlist.query.filter(Playlist.user_id == 1).all()
+    if playlists:
+        playlist_dict = [playlist.to_dict() for playlist in playlists]
+        return jsonify(playlist_dict), 200
 
     return jsonify({'message': 'Playlist not found'}), 404
 
@@ -109,6 +116,26 @@ def add_song_to_playlist(id):
 
 
 # --------------------- USERS  ROUTES  -------------------------
+# need helper methods for current user.
+@app.get('/users')
+def get_users():
+    users = User.query.all()
+    user_dict = [user.to_dict() for user in users]
+
+    return jsonify(user_dict), 200
+
+
+@app.get('/users/<int:id>')
+def get_user_byid(id):
+    user = User.query.filter(User.id == id).first()
+
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+
+    else:
+        return jsonify(user.to_dict()), 200
+
+
 @app.post('/users/register')
 def create_users():
     data = request.json
@@ -147,8 +174,91 @@ def delete_user(id):
         db.session.delete(user)
         db.session.commit()
         return jsonify(user.to_dict()), 204
-    return jsonify({'message': 'User not found'}), 404
+    return jsonify({'message': 'User not found'}),
+# # -------------------- SPOTIFY  ----------------------
 
+
+@app.route("/api/search", methods=["GET"])
+def search_spotify():
+    query = request.args.get('q')
+    token = get_token()
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+    # Limiting to 10 results for demonstration
+    search_url = f"https://api.spotify.com/v1/search?q={query}&type=track&limit=20"
+    response = requests.get(search_url, headers=headers)
+    song_results = response.json().get("tracks", {}).get("items", [])
+    songs = [{
+        "id": song["id"],
+        "name": song["name"],
+        "artists": [artist["name"] for artist in song["artists"]],
+        "album": song["album"]["name"],
+        "preview_url": song["preview_url"],
+        "image_url": song["album"]["images"][0]["url"] if song["album"]["images"] else None
+    } for song in song_results]
+    return jsonify(songs)
+
+
+@app.route("/api/addToPlaylist", methods=["POST"])
+def add_to_playlist():
+    song = request.json
+    # ... logic to add the song to a user's playlist ...
+    return jsonify({"message": "Song added successfully!"})
+
+
+# # -------------------- LOGIN SETUP ----------------------
+
+# bcrypt = Bcrypt(app)
+
+
+# def get_current_user():
+#     return User.query.where(User.id == session.get("user_id")).first()
+
+
+# def logged_in():
+#     return bool(get_current_user())
+
+
+# @app.post('/login')
+# def login():
+#     json = request.json
+#     user = User.query.where(User.username == json["username"]).first()
+#     if user and bcrypt.check_password_hash(user.password_hash, json['password']):
+#         session['user_id'] = user.id
+#         return user.to_dict(), 201
+#     else:
+#         return {'message': 'Invalid username or password'}, 401
+
+
+# @app.get('/current_session')
+# def check_session():
+#     if logged_in():
+#         return get_current_user().to_dict(), 200
+#     else:
+#         return {}, 401
+
+
+# @app.delete('/logout')
+# def logout():
+#     session['user_id'] = None
+#     return {}, 204
+
+# # -------------------- SIGN UP ----------------------
+# # USER SIGNUP #
+
+
+# @app.post('/users')
+# def create_user():
+#     json = request.json
+#     pw_hash = bcrypt.generate_password_hash(json['password']).decode('utf-8')
+#     new_user = User(username=json['username'], password_hash=pw_hash)
+#     db.session.add(new_user)
+#     db.session.commit()
+#     session['user_id'] = new_user.id
+#     return new_user.to_dict(), 201
+
+# ipdb.set_trace()
 
 if __name__ == '__main__':
     print("hello")  # critically important
