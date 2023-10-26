@@ -14,40 +14,7 @@
   
  }
 
- html {
-  scroll-behavior: smooth;
- }
 
- div {
-  padding: 2rem;
- }
-
- h1 {
-  padding: 4rem 1rem;
-  text-align: center;
-  font-size: 15rem;
-  font-family: 'Pacifico';
- }
-
- .get_started{
-  text-align: center;
-  padding: 8rem;
- }
-
- .welcome {
-  text-align: center;
-  font-size: 2rem;
- }
-
-
- nav {
-  text-align: center;
- }
-
- form {
-  text-align: center; 
-  padding: 1rem;
- }
 
 /* ------------------------  NAV BAR --------------------- */
 .navigation {
@@ -66,7 +33,7 @@
   height: 50vh
 }
 
-/* ------------------------  FORM  --------------------- */
+/* ------------------------  AUTH FORM  --------------------- */
 
 .form-container label {
   display: block;     /* This will make each label occupy its own line */
@@ -75,7 +42,7 @@
 
 .form-container button {
   display: block;
-  margin-top: 20px;  /* Space between the last input and the button */
+  margin-top: 20px; 
 }
 
 input {

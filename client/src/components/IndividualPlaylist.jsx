@@ -7,9 +7,12 @@ function IndividualPlaylist({playlist}){
   const navigate = useNavigate()
 
   function handleClick(){
-    navigate('/songs')
-
-  }
+    navigate('/songs', {state: {title:playlist.title, id:playlist.id, description: playlist.description}}
+    
+  )}
+    
+    // ${playlist.title} ${playlist.id} ${playlist.description}`)
+    // post request to the songs page
 
   async function handleDelete(id){
     if (!window.confirm("Are you sure you want to delete this playlist?")) {
@@ -50,6 +53,5 @@ function IndividualPlaylist({playlist}){
 export default IndividualPlaylist
 
 
-// on click of container will navigate to songs page
-//  useffect to grab the playlist name
+// on click of container will navigate to songs page  to grab the playlist name
 // 

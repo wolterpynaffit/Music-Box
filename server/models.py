@@ -39,6 +39,7 @@ class Playlist(db.Model, SerializerMixin):
 
     playlist_songs = db.relationship(
         'PlaylistSongs', back_populates='playlist')
+    # "playliist_songs" etc.. literal attribute in postman and shows what is in this class
     serialize_rules = ('-playlist_songs.playlist',)
     song = association_proxy('playlist_songs', 'song')
 

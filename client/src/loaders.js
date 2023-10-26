@@ -1,5 +1,5 @@
 export async function getPlayListLoader(){
-    const res = await fetch('http://localhost:3000/playlists')
+    const res = await fetch('http://localhost:5555/playlists')
     const allPlayLists = await res.json()
     return { allPlayLists }
 
@@ -7,11 +7,11 @@ export async function getPlayListLoader(){
 }
 
 
-getOnePlaylistLoader()
+// getOnePlaylistLoader()
 
 export async function getOnePlaylistLoader(id) {
     try {
-        const res = await fetch(`http://localhost:3000/playlist/${id}`);
+        const res = await fetch(`http://localhost:5555/playlist/${id}`);
         
         if (!res.ok) {
             throw new Error(`Could not fetch playlist with ID ${id}, status: ${res.status}`);

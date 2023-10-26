@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './Header'
 import Form from './Form'
-
+import "./Home.css"
 
 const Home = () => {
   return (
@@ -11,7 +11,7 @@ const Home = () => {
       <h1> Music Box </h1>
       <div className="get_started">
         <a href ="#form-id">
-          <button>BUTTON</button>
+          <button className='start-button'></button>
         </a>
         <p> click here to get started</p>
       </div>

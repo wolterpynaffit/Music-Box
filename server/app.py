@@ -64,8 +64,10 @@ def create_playlist():
 
 @app.delete('/playlists/<int:id>')
 def delete_playlist(id):
-    playlist = Playlist.query.filter[Playlist.id == id].first()
+    # delete wasn't working with query.filter[Playlist.id =id] The following correction successfully deletes. Whyyyy though?
+    playlist = Playlist.query.filter_by(id=id).first()
     if playlist:
+        print(f'deleting playlist with id: {id}')
         db.session.delete(playlist)
         db.session.commit()
         return jsonify(playlist.to_dict()), 204
@@ -100,19 +102,6 @@ def get_song_id(id):
     if song:
         return jsonify(song.to_dict()), 200
     return jsonify({'message': 'song not found'}), 404
-
-
-@app.post('/playlists/<int:id>/songs')
-def add_song_to_playlist(id):
-    playlist = Playlist.query.filter(Playlist.id == id).first()
-    if playlist:
-        data = request.json
-        song = Song(**data)
-        # Assuming you've set up your relationships in the models correctly
-        playlist.songs.append(song)
-        db.session.commit()
-        return jsonify(song.to_dict()), 201
-    return jsonify({'message': 'Playlist not found'}), 404
 
 
 # --------------------- USERS  ROUTES  -------------------------
@@ -199,12 +188,62 @@ def search_spotify():
     } for song in song_results]
     return jsonify(songs)
 
+# ----------------------------------------------------------
+# THIS WILL ADD TO THE USERS PLAYLIST BUT DOES NOT PERSIST
+# ----------------------------------------------------------
 
-@app.route("/api/addToPlaylist", methods=["POST"])
-def add_to_playlist():
-    song = request.json
+
+@app.post('/playlists/<int:id>/songs')
+def add_song_to_playlist(id):
+    playlist = Playlist.query.filter(Playlist.id == id).first()
+    if playlist:
+        data = request.json
+        song = Song(**data)
+        # Assuming you've set up your relationships in the models correctly
+        playlist.songs.append(song)
+        db.session.commit()
+        return jsonify(song.to_dict()), 201
+    return jsonify({'message': 'Playlist not found'}), 404
+
+
+@app.route("/api/addToPlaylist/<int:playlist_id>", methods=["POST"])
+def add_to_playlist(playlist_id):
+    # STRUCTURE OF PLAYLIST OBJECT:
+    #   {
+    #       ID,
+    #       TITLE,
+    #       DESCRIPTION,
+    #       USER_ID
+    #   }
     # ... logic to add the song to a user's playlist ...
-    return jsonify({"message": "Song added successfully!"})
+    # print(f"\n\nMY SOOOOONG: {song}\n\n")
+    playlist = Playlist.query.filter(Playlist.id == playlist_id)
+    if playlist:
+        song = request.json
+        print(song)
+        print('------------------')
+        playlist.append(song)
+    db.session.add(playlist)
+    db.session.commit()
+    return song
+
+    # return jsonify({"message": "Song added successfully!"})
+
+# ----------------------------------------------------------
+
+
+# @app.route("/api/addToPlaylist/<int:id>/songs", methods=["POST"])
+# def add_to_playlist(id):
+#     playlist = Playlist.query.filter(Playlist.id == id).first()
+#     # checking to see if a playlist exists, if so we are adding to it...
+
+#     if playlist:
+#         songData = request.json
+#         print(songData)
+#         new_playlist_song = Song(**songData)
+#         playlist.songs.append(new_playlist_song)
+#         db.session.commit()
+#     return jsonify({"message": "Song added successfully!"})
 
 
 # # -------------------- LOGIN SETUP ----------------------
@@ -259,7 +298,6 @@ def add_to_playlist():
 #     return new_user.to_dict(), 201
 
 # ipdb.set_trace()
-
 if __name__ == '__main__':
     print("hello")  # critically important
     app.run(port=5555, debug=True)

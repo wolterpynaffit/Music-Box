@@ -8,25 +8,29 @@ function Form () {
 
         // notes on form data below -- FormData specific to forms
         const formData = new FormData(e.target)
-    
-        fetch(`http://127.0.0.1:5555/playlists`, {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => {
-          console.log(response)
-          if (response.ok){
-            response.json().then(info => navigate('/playlists'))
-          }
-          else {
-            throw new Error("Network response was not ok");
-          }
-        })
-        .catch((error)=> {
-          console.log("Error:", error)
-        })
-        
-      }
+        console.log(formData)
+
+        // if formData.trim() !== ''{
+          
+              fetch(`http://127.0.0.1:5555/playlists`, {
+                method: 'POST',
+                body: formData
+              })
+              .then(response => {
+                console.log(response)
+                if (response.ok){
+                  response.json().then(info => navigate('/playlists'))
+                }
+                else {
+                  throw new Error("Network response was not ok");
+                }
+              })
+              .catch((error)=> {
+                console.log("Error:", error)
+              })
+              
+        }
+      // }
   return (
     <>
     

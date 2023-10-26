@@ -1,0 +1,78 @@
+html {
+    scroll-behavior: smooth;
+   }
+
+
+  
+div {
+    padding: 2rem;
+   }
+  
+h1 {
+    padding: 4rem 1rem;
+    text-align: center;
+    font-size: 15rem;
+    font-family: 'Pacifico';
+   }
+  
+.get_started{
+    text-align: center;
+    padding: 8rem;
+   }
+  
+.welcome {
+    text-align: center;
+    font-size: 2rem;
+   }
+  
+  
+nav {
+    text-align: center;
+   }
+  
+form {
+    text-align: center; 
+    padding: 1rem;
+    margin: 13rem;
+   }
+/* ---------------- BUTTONS---------------- */
+
+button {
+   border: none;
+   padding: 2rem;
+   margin:  2rem;
+}
+
+.start-button{
+    height: 2rem;
+    width: 2rem;
+    color: red;
+    border-radius: 100px;
+}
+
+
+   /* ---------------------MEDIA QUERY ------------------- */
+
+   @media all and (max-width: 1321px){
+    h1 {
+        color: pink;
+        font-size: 10rem;
+    }
+   }
+
+
+   @media all and (max-width: 390px){
+    h1 {
+        color: pink;
+        font-size: 5rem;
+        line-height: 5rem;
+    }
+   }
+
+   @media all and (max-width: 425px){
+    h1 {
+        color: pink;
+        font-size: 5rem;
+        line-height: 5rem;
+    }
+   }

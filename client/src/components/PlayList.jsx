@@ -8,7 +8,7 @@ function PlayList () {
 const [display, setDisplay] =  useState([])
 
 const {allPlayLists} = useLoaderData()
-console.log(useLoaderData())
+console.log(`WHOOOOOOOOOO ${allPlayLists}`)
 
 const mappedPlaylist = allPlayLists.map(playlist => <IndividualPlaylist key = {playlist.id} playlist={playlist}/>)
   return (
