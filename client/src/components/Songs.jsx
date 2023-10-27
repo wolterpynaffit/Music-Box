@@ -57,7 +57,7 @@ function Songs() {
       .catch(err => {
         setError(err.message);
       });
-      console.log(userPlaylist)
+      // console.log(userPlaylist)
     };
 
     
@@ -86,7 +86,7 @@ function Songs() {
           ))}
         </div>
         <div>
-          <h2> {title}{userPlaylist.id}</h2>
+          <h2> {title}{userPlaylist.playlistID}</h2>
           {userPlaylist.map((song, id) => (
             <div key={id}>
               <p>{song.name}</p>

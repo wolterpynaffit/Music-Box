@@ -6,30 +6,51 @@ import IndividualPlaylist from './IndividualPlaylist';
 
 function PlayList () {
 const [display, setDisplay] =  useState([])
+const [search, setSearch] = useState('')
 
 const {allPlayLists} = useLoaderData()
-console.log(`WHOOOOOOOOOO ${allPlayLists}`)
+// console.log(`WHOOOOOOOOOO ${allPlayLists}`)
+
+
+
+// filter  logic ---------------------------------
+// search for a playlist
+function handleSearch(input){
+  setSearch(input)
+}
+const filteredPlaylists = allPlayLists.filter((playlist) => playlist.title.toLowerCase().includes(search.toLowerCase()))
+
+// filter  logic ---------------------------------
+
+function handleClick(){
+
+}
 
 const mappedPlaylist = allPlayLists.map(playlist => <IndividualPlaylist key = {playlist.id} playlist={playlist}/>)
   return (
 
     <>
-    <h2> Nothing will be here until playlist is created </h2>
-    
-    <div className="playlist-container">
-    {mappedPlaylist}
-    </div>
+    <div>
+      <input
+      onChange={(e) => handleSearch(e.target.value)}
+      value={search}
+      type='text'
+      placeholder='Search'
+      />
 
-  {/* 
-    ---- need to create a toggle message/ something like if no playlist has been created, then display a message to a user
-  
-    ---- OTHERWISE, show the mapped playlists
-  
-  ----  need to get playlists from database and map here 
-
-  ---- display it as div containers with album cover and name of the playlist displayng 
-  
-  */}
+        {filteredPlaylists.length === 0 ? (
+          <>
+          <h2>Nothing will be here until a playlist is created or no results found.</h2>
+          <button onclick={handleClick}> click here to begin... </button>
+          </>
+        ) : (
+          <div className="playlist-container">
+            {filteredPlaylists.map((playlist) => (
+              <IndividualPlaylist key={playlist.id} playlist={playlist} />
+            ))}
+          </div>
+        )}
+      </div>
     </>
 
   )

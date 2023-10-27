@@ -1,89 +1,87 @@
-/* :root {
-  --bg: #282c34;
-  --header: #fff;
-  --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88);
-}
- */
 
+ /* ------------------------ CSS RESET  --------------------- */
 
  * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  border: 1px solid orange;
   
+ }
+
+/* -------------------------------------------------------------- */
+/* ------------------------ REUSABLE STYLES --------------------- */
+/* -------------------------------------------------------------- */
+
+/* ------------------------ ViewPort Height --------------------- */
+
+.vh-100 { height: 100vh }
+.vh-60  { height: 60vh }
+.vh-50  { height: 50vh }
+/* ------------------------ BACKGROUND --------------------- */
+
+.bg-dark     { background-color: lightblue }
+.bg-featured { background-color: bisque }
+.bg-light    { background-color: pink }
+
+/* ------------------------ PADDING -------------------------- */
+
+.p-2 { padding : 2rem }
+.p-4 { padding : 4rem }
+.p-8 { padding : 8rem }
+
+.pl-2 { padding-left : 2rem }
+.pl-4 { padding-left : 4rem }
+.pl-8 { padding-left: 8rem }
+
+.pr-2 { padding-right : 2rem }
+.pr-4 { padding-right : 4rem }
+.pr-8 { padding-right : 8rem }
+
+.pt-2 { padding-top : 2rem }
+.pt-4 { padding-top : 4rem }
+.pt-8 { padding-top : 8rem }
+
+.pb-2 { padding-bottom : 2rem }
+.pb-4 { padding-bottom : 4rem }
+.pb-8 { padding-bottom : 8rem }
+/* ------------------------ MARGIN --------------------------- */
+.m-2 { margin : 2rem }
+.m-4 { margin : 4rem }
+.m-8 { margin : 8rem }
+
+.ml-2 { margin-left : 2rem }
+.ml-4 { margin-left : 4rem }
+.ml-8 { margin-left: 8rem }
+
+.mr-2 { margin-right : 2rem }
+.mr-4 { margin-right : 4rem }
+.mr-8 { margin-right : 8rem }
+
+.mt-2 { margin-top : 2rem }
+.mt-4 { margin-top : 4rem }
+.mt-8 { margin-top : 8rem }
+
+.mb-2 { margin-bottom : 2rem }
+.mb-4 { margin-bottom : 4rem }
+.mb-8 { margin-bottom : 8rem }
+
+/* ------------------------ HTML STYLES  --------------------- */
+
+/* IMPORTED FONTS & WEIGHTS */
+/* Montserrat:  100 , 300, 500 || 100, 300, 500 Italic  */ 
+/* Pacifico */
+
+
+h1 {
+  font-family: 'Pacifico';
+  color: rgb(218, 120, 0)
+ }
+
+ p {
+  font-family: 'Montserrat', serif;
  }
 
 
 
-/* ------------------------  NAV BAR --------------------- */
-.navigation {
-  text-decoration: none;
-  padding:2rem;
-  
-}
 
-.vh-100{
-  height: 100vh
-}
-.vh-60{
-  height: 60vh
-}
-.vh-50{
-  height: 50vh
-}
-
-/* ------------------------  AUTH FORM  --------------------- */
-
-.form-container label {
-  display: block;     /* This will make each label occupy its own line */
-  margin-bottom: 10px; /* Space between the elements */
-}
-
-.form-container button {
-  display: block;
-  margin-top: 20px; 
-}
-
-input {
-  height: 4rem;
-  width: 20rem;
-  border-radius: 5rem;
-}
-
-
-/* ------------------------  PLAYLIST CARD  --------------------- */
-
-/* IndividualPlaylist.css */
-
-.playlists-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 20px;
-  justify-items: center;
-  align-items: center;
-}
-
-.playlist-card {
-  width: 200px;
-  height: 200px;
-  border: 1px solid #ddd;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-/* Media Query for larger screens */
-@media (min-width: 600px) {
-  .playlists-container {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
-}
-
-.playlist-card h2 {
-  margin-bottom: 10px;
-}

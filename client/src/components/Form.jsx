@@ -8,16 +8,20 @@ function Form () {
 
         // notes on form data below -- FormData specific to forms
         const formData = new FormData(e.target)
-        console.log(formData)
 
-        // if formData.trim() !== ''{
+
+
+    
+        
+        if (formData.get('title').trim() !== '' && formData.get('description') !== ''){
           
-              fetch(`http://127.0.0.1:5555/playlists`, {
-                method: 'POST',
-                body: formData
-              })
+          fetch(`http://127.0.0.1:5555/playlists`, {
+            method: 'POST',
+            body: formData
+          }) 
+    
               .then(response => {
-                console.log(response)
+                // console.log(response)
                 if (response.ok){
                   response.json().then(info => navigate('/playlists'))
                 }
@@ -30,7 +34,10 @@ function Form () {
               })
               
         }
-      // }
+        else {
+          console.log('form must not be empty')
+        }
+      }
   return (
     <>
     
@@ -59,7 +66,7 @@ export default Form
         // setting the data in the form to a javascript native thing called FormData and it is how form data is handled under the hood
             // -----> const formData = new FormData(e.target)
         // console.log(e.target)
-        // // e target is holld form entry
+        // // e target is hold form entry
     
         // console.log([...formData.entries()].forEach(i => console.log(i)))
         //  this sends every chucnk in form data as a separate console entry

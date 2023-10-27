@@ -7,6 +7,7 @@ from models import User, Playlist, Song, PlaylistSongs
 from flask_cors import CORS
 from flask import request, jsonify, session
 from flask_bcrypt import Bcrypt
+
 # Local imports
 from spotify import get_token
 # application and connection to data
@@ -193,41 +194,112 @@ def search_spotify():
 # ----------------------------------------------------------
 
 
-@app.post('/playlists/<int:id>/songs')
-def add_song_to_playlist(id):
-    playlist = Playlist.query.filter(Playlist.id == id).first()
-    if playlist:
-        data = request.json
-        song = Song(**data)
-        # Assuming you've set up your relationships in the models correctly
-        playlist.songs.append(song)
-        db.session.commit()
-        return jsonify(song.to_dict()), 201
-    return jsonify({'message': 'Playlist not found'}), 404
+# @app.post('/playlists/<int:id>/songs')
+# def add_song_to_playlist(id):
+#     playlist = Playlist.query.filter(Playlist.id == id).first()
+#     if playlist:
+#         data = request.json
+#         song = Song(**data)
+#         # Assuming you've set up your relationships in the models correctly
+#         playlist.songs.append(song)
+#         db.session.commit()
+#         return jsonify(song.to_dict()), 201
+#     return jsonify({'message': 'Playlist not found'}), 404
+
+
+# @app.route("/api/addToPlaylist/<int:playlist_id>", methods=["POST"])
+# def add_to_playlist(playlist_id):
+#     # STRUCTURE OF PLAYLIST OBJECT:
+#     #   {
+#     #       ID,
+#     #       TITLE,
+#     #       DESCRIPTION,
+#     #       USER_ID
+#     #   }
+#     # ... logic to add the song to a user's playlist ...
+#     # print(f"\n\nMY SOOOOONG: {song}\n\n")
+#     playlist = Playlist.query.filter(Playlist.id == playlist_id).first()
+#     print(playlist)
+#     print('---------------------')
+#     if playlist:
+#         song = request.json
+#         print(song)
+#         print('---------------------')
+#         playlist.append(song)
+#     db.session.add(playlist)
+#     db.session.commit()
+#     return song
+
+    # return jsonify({"message": "Song added successfully!"})
 
 
 @app.route("/api/addToPlaylist/<int:playlist_id>", methods=["POST"])
 def add_to_playlist(playlist_id):
-    # STRUCTURE OF PLAYLIST OBJECT:
-    #   {
-    #       ID,
-    #       TITLE,
-    #       DESCRIPTION,
-    #       USER_ID
-    #   }
-    # ... logic to add the song to a user's playlist ...
-    # print(f"\n\nMY SOOOOONG: {song}\n\n")
-    playlist = Playlist.query.filter(Playlist.id == playlist_id)
-    if playlist:
-        song = request.json
-        print(song)
-        print('------------------')
-        playlist.append(song)
-    db.session.add(playlist)
-    db.session.commit()
-    return song
+    playlist = Playlist.query.filter(Playlist.id == playlist_id).first()
 
-    # return jsonify({"message": "Song added successfully!"})
+    if not playlist:
+        return jsonify({"message": "Playlist not found"}), 404
+
+    song_data = request.json
+    print(song_data)
+    print('----------------------------------------------')
+    print('----------------------------------------------')
+    album = song_data.get('album')
+    print(album)
+    print('----------------------------------------------')
+    print('----------------------------------------------')
+    # this is displaying the artist name as 'artists' :['ABBA']
+    artist = song_data.get('artist')
+    print(artist)
+    print('----------------------------------------------')
+    print('----------------------------------------------')
+    id = song_data.get('id')
+    print(id)
+    print('----------------------------------------------')
+    print('----------------------------------------------')
+    image_url = song_data.get('image_url')
+    print(image_url)
+    print('----------------------------------------------')
+    print('----------------------------------------------')
+    name = song_data.get('name')
+    print(name)
+    print('----------------------------------------------')
+    print('----------------------------------------------')
+
+    # Check if song already exists in the database
+    song = Song.query.filter_by(
+        title=song_data["name"], artist=song_data['id']).first()
+
+    print('----------------------------------------------')
+    print('----------------------------------------------')
+    print(song)
+    # song is an object. Will return.... <Song 51>
+    print('----------------------------------------------')
+    print('----------------------------------------------')
+
+    # If the song doesn't exist, create a new song record
+    if not song:
+        song = Song(
+            title=song_data["name"], artist=song_data["id"], album=song_data.get("album", ""))
+        db.session.add(song)
+        db.session.flush()  # To get the ID assigned before the commit
+
+    # Check if the song is already associated with the playlist
+    song_in_playlist = PlaylistSongs.query.filter_by(
+        playlist_id=playlist.id, song_id=song.id).first()
+
+    if not song_in_playlist:
+        # Create the association between the song and playlist
+        playlist_song_association = PlaylistSongs(
+            playlist_id=playlist.id, song_id=song.id)
+        db.session.add(playlist_song_association)
+
+    db.session.commit()
+
+    return jsonify({
+        'name': song['name']
+    })  # Serialize the song data to return
+
 
 # ----------------------------------------------------------
 
@@ -296,7 +368,6 @@ def add_to_playlist(playlist_id):
 #     db.session.commit()
 #     session['user_id'] = new_user.id
 #     return new_user.to_dict(), 201
-
 # ipdb.set_trace()
 if __name__ == '__main__':
     print("hello")  # critically important

@@ -1,0 +1,20 @@
+
+/* ------------------------  AUTH FORM  --------------------- */
+
+.form-container label {
+    display: block;     /* This will make each label occupy its own line */
+    margin-bottom: 10px; /* Space between the elements */
+  }
+  
+  .form-container button {
+    display: block;
+    margin-top: 20px; 
+  }
+  
+  input {
+    height: 4rem;
+    width: 20rem;
+    border-radius: 5rem;
+  }
+  
+  
