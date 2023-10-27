@@ -48,19 +48,43 @@ def get_playlist_id(id):
     return jsonify({'message': 'Playlist not found'}), 404
 
 
-# this is using the form
-@app.post('/playlists')
-def create_playlist():
+# # this is using the form
+# @app.post('/playlists')
+# def create_playlist():
+#     print(request.form.get)
+#     # data = request.json
+#     title = request.form.get('title')
+#     description = request.form.get('description')
+#     # this is matching the form input field
+
+#     new_playlist = Playlist(title=title, description=description)
+#     db.session.add(new_playlist)
+#     db.session.commit()
+#     return jsonify(new_playlist.to_dict()), 201
+# # this is using the form
+
+
+@app.post('/playlists/<int:id>')
+def create_playlist(id):
+
+    # playlists = Playlist.query.filter(Playlist.id == id).first()
+
+    # if playlists:
     print(request.form.get)
     # data = request.json
     title = request.form.get('title')
     description = request.form.get('description')
+    user_id = request.form.get('id')
     # this is matching the form input field
 
-    new_playlist = Playlist(title=title, description=description)
+    new_playlist = Playlist(user_id=user_id, title=title,
+                            description=description)
     db.session.add(new_playlist)
     db.session.commit()
     return jsonify(new_playlist.to_dict()), 201
+    # else:
+    #     # Return an appropriate response if no matching playlist is found
+    #     return jsonify({"error": "No matching playlist found"}), 400
 
 
 @app.delete('/playlists/<int:id>')
@@ -230,7 +254,7 @@ def search_spotify():
 #     db.session.commit()
 #     return song
 
-    # return jsonify({"message": "Song added successfully!"})
+#     return jsonify({"message": "Song added successfully!"})
 
 
 @app.route("/api/addToPlaylist/<int:playlist_id>", methods=["POST"])
@@ -277,6 +301,8 @@ def add_to_playlist(playlist_id):
     print('----------------------------------------------')
     print('----------------------------------------------')
 
+# Trying to access the value of the object to POST into database.
+
     # If the song doesn't exist, create a new song record
     if not song:
         song = Song(
@@ -297,7 +323,7 @@ def add_to_playlist(playlist_id):
     db.session.commit()
 
     return jsonify({
-        'name': song['name']
+        'name': song.title
     })  # Serialize the song data to return
 
 

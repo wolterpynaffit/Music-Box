@@ -7,6 +7,7 @@ function IndividualPlaylist({playlist}){
   const navigate = useNavigate()
 
   function handleClick(){
+    // navigating to the songs route and also passing along the details of what is being clicked
     navigate('/songs', {state: {title:playlist.title, id:playlist.id, description: playlist.description}}
     
   )}
@@ -27,9 +28,6 @@ function IndividualPlaylist({playlist}){
       }
         // Provide feedback
         alert('Playlist deleted successfully.');
-
-        // Optionally, update the UI, for example:
-        window.location.reload();
   
       } catch (error) {
         console.error('Error deleting playlist:', error);
@@ -52,6 +50,3 @@ function IndividualPlaylist({playlist}){
 
 export default IndividualPlaylist
 
-
-// on click of container will navigate to songs page  to grab the playlist name
-// 

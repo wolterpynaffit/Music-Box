@@ -1,35 +1,9 @@
-html {
-    scroll-behavior: smooth;
-   }
 
-
-  
-div {
-    padding: 2rem;
-   }
-  
-
-  
-.get_started{
-    text-align: center;
-    padding: 8rem;
-   }
-  
-.welcome {
-    text-align: center;
-    font-size: 2rem;
-   }
-  
-  
-nav {
-    text-align: center;
-   }
-  
 form {
     text-align: center; 
     padding: 1rem;
     margin: 13rem;
-   }
+}
 
 
 .form-section {
@@ -39,57 +13,87 @@ form {
 
 /* this is animating start button */
 .blob { 
-    background : rgb(82, 14, 165);
+    background : hsl(76, 84%, 35%, 80%);
     border-radius: 50%;
     margin: 10px;
-    height: 20px;
-    width: 20px;
-
-    box-shadow: 0 0 0 0 rgba(0,0,0,1);
-    transform: scale(1);
+    height: 50px;
+    width: 50px;
+    
+    box-shadow: 0 0 0 0 rgba(76, 84, 35, 0.7);
+    transform: scale(10);
     animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
     0% {
         transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(15, 109, 190, 0.7)
+        box-shadow: 0 0 0 0 rgba(76, 84, 35, 0.7)
     }
-
+    
     70% {
         transform: scale(1);
-        box-shadow: 0 0 0 10px rgba(0,0,0,0)
+        box-shadow: 0 0 0 10px rgba(76, 84, 35, 0.7)
     }
-
+    
     100% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(76, 84, 35, 0.7);
 	}
 }
 
 
-   /* ---------------------MEDIA QUERY ------------------- */
+/* ---------------------MEDIA QUERY ------------------- */
 
-   @media all and (max-width: 1321px){
+@media all and (max-width: 1321px){
     h1 {
         color: pink;
         font-size: 10rem;
     }
-   }
+}
 
 
-   @media all and (max-width: 390px){
+@media all and (max-width: 390px){
     h1 {
         color: pink;
         font-size: 5rem;
         line-height: 5rem;
     }
-   }
+}
 
-   @media all and (max-width: 425px){
+@media all and (max-width: 425px){
     h1 {
         color: pink;
         font-size: 5rem;
         line-height: 5rem;
     }
+}
+/* ---------------------SECTION 1 ------------------- */
+html {
+    scroll-behavior: smooth;
    }
+
+.MB-title {
+    font-size: 15rem;
+    text-align: center;
+    text-shadow: 2px 8px rgb(173, 216, 230, 5);
+    margin-top: 20rem;
+
+}
+
+.get_started{
+    text-align: center;
+    padding: 8rem;
+}
+
+.welcome {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.bg-image {
+    background-image: url('/Users/tiffanypretlow/Desktop/Development/code/FIS-SE-NYC/phase-5/Music-Box/client/public/images/Pink_Floral_Retro_Wallpaper.jpeg');
+}
+
+/* blur on scroll */
+
+

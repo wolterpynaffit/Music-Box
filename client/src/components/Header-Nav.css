@@ -1,0 +1,18 @@
+/* body {
+    background-color: rgb(40, 65, 25) 
+} */
+
+nav {
+    font-size: 2rem;
+    margin: 4rem;
+}
+
+
+nav a {
+    color: inherit;
+    padding: 1.5rem;
+    margin: 1.5rem;
+    text-decoration: none;
+    font-family: montserrat;
+    
+}

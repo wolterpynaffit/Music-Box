@@ -8,14 +8,11 @@ function Form () {
 
         // notes on form data below -- FormData specific to forms
         const formData = new FormData(e.target)
-
-
-
-    
-        
+        console.log("User ID:", formData.get('id'));
+// making sure the form isn't empty before submitting
         if (formData.get('title').trim() !== '' && formData.get('description') !== ''){
           
-          fetch(`http://127.0.0.1:5555/playlists`, {
+          fetch(`http://127.0.0.1:5555/playlists/${1}`, {
             method: 'POST',
             body: formData
           }) 
@@ -43,7 +40,11 @@ function Form () {
     
     <div className = 'form-container' id='form-id'>
       <form onSubmit={handlePost}>
-        <label>Name:
+
+      <label>User ID:
+        <input type='text' name='id' />
+      </label>
+        <label>Playlist Title:
           <input type='text' name='title'/>
         </label>
         <br />

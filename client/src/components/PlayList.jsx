@@ -9,6 +9,7 @@ const [display, setDisplay] =  useState([])
 const [search, setSearch] = useState('')
 
 const {allPlayLists} = useLoaderData()
+const navigate = useNavigate()
 // console.log(`WHOOOOOOOOOO ${allPlayLists}`)
 
 
@@ -22,9 +23,21 @@ const filteredPlaylists = allPlayLists.filter((playlist) => playlist.title.toLow
 
 // filter  logic ---------------------------------
 
-function handleClick(){
+// function handleClick(){
+//   navigate('/ #form-id')
 
+// }
+function handleClick() {
+  navigate('/');
+  setTimeout(() => {
+    const element = document.getElementById('form-id');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, 100); // 100 milliseconds delay, adjust as needed
 }
+
+
 
 const mappedPlaylist = allPlayLists.map(playlist => <IndividualPlaylist key = {playlist.id} playlist={playlist}/>)
   return (
@@ -40,8 +53,8 @@ const mappedPlaylist = allPlayLists.map(playlist => <IndividualPlaylist key = {p
 
         {filteredPlaylists.length === 0 ? (
           <>
-          <h2>Nothing will be here until a playlist is created or no results found.</h2>
-          <button onclick={handleClick}> click here to begin... </button>
+          <h2>You haven't created a playlist yet...</h2>
+          <button onClick={handleClick}> click here to begin... </button>
           </>
         ) : (
           <div className="playlist-container">

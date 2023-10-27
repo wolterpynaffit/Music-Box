@@ -6,10 +6,11 @@ import "./Home.css"
 const Home = () => {
   return (
     <>
-    <section className = 'vh-100'>
-      <div>
+    <section className = 'vh-100 bg-image img-blur'>
+      <div className = 'blurred-img'>
+        <h1 className = "MB-title">
         <p className = 'welcome'> Welcome to </p>
-        <h1> Music Box </h1>
+         Music Box </h1>
         <div className="get_started">
           <a href ="#form-id">
             <button className='blob'></button>
