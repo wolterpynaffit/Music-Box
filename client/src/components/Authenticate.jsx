@@ -40,7 +40,7 @@ function Authenticate  () {
     
 
     function attemptSignup(userInfo){
-        fetch('/users/register', {
+        fetch('http://localhost:5555/users/register', {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json',
