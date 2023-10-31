@@ -10,7 +10,7 @@ function Authenticate  () {
     const  navigate = useNavigate()
 
     useEffect(() => {
-        fetch('/current_session')
+        fetch('http://localhost:5555/current_session')
         .then(res => {
             if(res.ok){
                 res.json()
@@ -21,7 +21,7 @@ function Authenticate  () {
     })
 
     function attemptLogin(userInfo){
-        fetch('/login', {
+        fetch('http://localhost:5555/login', {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json',

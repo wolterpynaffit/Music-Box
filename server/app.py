@@ -28,7 +28,7 @@ bcrypt = Bcrypt(app)
 
 
 def get_current_user():
-    return User.query.where(User.id == session.get("user_id")).first()
+    return User.query.filter(User.id == session.get("user_id")).first()
 
 
 def logged_in():
@@ -73,6 +73,7 @@ def login():
 @app.get('/current_session')
 def check_session():
     if logged_in():
+        print(get_current_user())
         return get_current_user().to_dict(), 200
     else:
         return {}, 401
