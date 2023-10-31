@@ -1,10 +1,16 @@
 import React, { useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
+import ShareModal from './ShareModal'
+
+import './Playlist.css'
+import './IndiePlaylist.css'
 
 
-function IndividualPlaylist({playlist}){
+
+function IndividualPlaylist({playlist, onDelete}){
 
   const navigate = useNavigate()
+  const [showShareModal, setShowShareModal] = useState(false)
 
   function handleClick(){
     // navigating to the songs route and also passing along the details of what is being clicked
@@ -28,6 +34,7 @@ function IndividualPlaylist({playlist}){
       }
         // Provide feedback
         alert('Playlist deleted successfully.');
+        onDelete(playlist.id)
   
       } catch (error) {
         console.error('Error deleting playlist:', error);
@@ -36,14 +43,27 @@ function IndividualPlaylist({playlist}){
     }
 
 
+  function handleShareButton(){
+
+      setShowShareModal(true);
+
+    }
+
+
   console.log(playlist)
   return (
-    <div className = 'playlist-card grid col-2 '>
+    <div className= 'individual-playlist-card'>
       <div onClick= {handleClick} >
         <h2> {playlist.title}</h2>
         <p>{playlist.description}</p>
       </div>
-      <button onClick= {handleDelete}> delete </button>
+      <div>
+        <button onClick= {handleDelete}> delete </button>
+        <span onClick={handleShareButton} className="material-symbols-outlined">
+                    share
+                </span>
+                {showShareModal && <ShareModal onClose={() => setShowShareModal(false)} />}
+      </div>
     </div>
   )
 }

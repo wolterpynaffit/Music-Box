@@ -8,6 +8,12 @@ from sqlalchemy import MetaData
 from flask import Flask
 from config import db
 
+metadata = MetaData(naming_convention={
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+})
+db = SQLAlchemy(metadata=metadata)
+
+
 # =============================== USER ==============================
 
 
@@ -16,8 +22,16 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True, unique=True)
     username = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
-    password = db.Column(db.String, nullable=False)
+    password_hash = db.Column(db.String, nullable=False)
+
+    def __repr__(self):
+        return f'<User id="{self.id}" username="{self.username}">'
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "username": self.username
+        }
 
     # playlist_songs = db.relationship(
     #     "PlaylistSongs", back_populates='contributor'

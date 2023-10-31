@@ -4,15 +4,48 @@
 
 nav {
     font-size: 2rem;
-    margin: 4rem;
+    padding: 2rem;
+    /*  below will position the button  centered  with text and to the right*/
+    display: flex;
+    align-items: center;
+    width: 100;
+    margin-top: 2rem;;
+    
+    
+
 }
 
 
 nav a {
     color: inherit;
     padding: 1.5rem;
-    margin: 1.5rem;
+    
+ 
     text-decoration: none;
     font-family: montserrat;
+    font-size: 1rem;
     
+}
+
+nav a:hover {
+    color: rgb(226, 142, 15);
+
+}
+
+.signout_button {
+    color: white;;
+    background-color: rgb(63, 100, 63);
+    display: flex;
+    height: 65px;
+    width: 100px;
+    border-radius: 20rem;
+    /* -- this works with nav styling to center the button----- */
+    justify-content: center;  /* Horizontally centers the text/content */
+    align-items: center;      /* Vertically centers the text/content */
+    margin-left: auto;  
+    margin-right: 4rem;
+    
+
+
+
 }

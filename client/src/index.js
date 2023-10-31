@@ -8,8 +8,8 @@ import App from './components/App';
 import Home from './components/Home';
 import PlayList from './components/PlayList';
 import Authenticate from './components/Authenticate';
-import Login from './User/Login';
-import Signup from './User/Signup';
+import Login from './components/Login';
+import Signup from './components/Signup';
 import Songs from './components/Songs';
 
 

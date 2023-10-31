@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import Login from '/Users/tiffanypretlow/Desktop/Development/code/FIS-SE-NYC/phase-5/Music-Box/client/src/User/Login.jsx'
-import SignUp from '/Users/tiffanypretlow/Desktop/Development/code/FIS-SE-NYC/phase-5/Music-Box/client/src/User/Signup.jsx'
+import Login from '/Users/tiffanypretlow/Desktop/Development/code/FIS-SE-NYC/phase-5/Music-Box/client/src/components/Login.jsx'
+import SignUp from '/Users/tiffanypretlow/Desktop/Development/code/FIS-SE-NYC/phase-5/Music-Box/client/src/components/Signup.jsx'
 import { useNavigate } from 'react-router-dom'
 
 function Authenticate  () {
@@ -62,7 +62,7 @@ function Authenticate  () {
     
   return (
     <>
-    <h1>Music Box </h1>
+    <h1 className= 'MB-title'>Music Box </h1>
     {!currentUser ? <Login attemptLogin={attemptLogin}/> : null }
     {!currentUser ?  <SignUp attemptSignup={attemptSignup} /> : null}
     

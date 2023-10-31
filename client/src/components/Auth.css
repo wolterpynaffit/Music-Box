@@ -18,3 +18,10 @@
   }
   
   
+.MB-title {
+  font-size: 15rem;
+  text-align: center;
+  text-shadow: 2px 8px rgb(173, 216, 230, 5);
+  margin: 0;
+
+}

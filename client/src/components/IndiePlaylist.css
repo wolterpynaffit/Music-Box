@@ -1,0 +1,41 @@
+/* Backdrop styles */
+.share-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.share-modal-content {
+    position: relative;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 300px; /* Adjust width as needed */
+    border-radius: 8px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling the share links */
+.share-modal-content a {
+    display: block;
+    margin: 10px 0;
+    padding: 8px 12px;
+    background-color: #4267B2; /* Facebook blue, adjust as needed */
+    color: white;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s;
+
+}
+
+.share-modal-content a:hover {
+    background-color: #365899; /* Slightly darker blue for hover */
+}

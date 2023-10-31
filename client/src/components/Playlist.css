@@ -1,0 +1,77 @@
+/* Overall container for all the playlists */
+.playlist-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows cards to wrap to next line when there's not enough space */
+    margin-top: 4rem;
+    gap: 2rem;       /* Space between each card */
+    justify-content: center; /* Center the cards */
+    
+}
+
+/* Individual card styles */
+.individual-playlist-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 200px; /* You can adjust based on your design */
+    height: 300px;
+    padding: 1rem;
+    background-color: rgb(112, 151, 75);
+    transition: transform 0.3s; /* Smooth transform transition */
+    /* necessary for button positioning */
+    display: flex;            /* Making it a flex container */
+    flex-direction: column;   /* Keeping children stacked vertically */
+    transition: transform 0.3s; /* Smooth transform transition */
+}
+
+.individual-playlist-card:hover {
+    transform: translateY(-10px); /* Lifts the card slightly on hover */
+}
+
+
+/* ---------------------------------------- */
+/* ---------------------------------------- */
+/* Uncomment this when images are added as a  cover for the playlist */
+/* ---------------------------------------- */
+/* .individual-playlist-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover;
+} */
+/* ---------------------------------------- */
+
+/* Playlist title or other texts can be styled further */
+.individual-playlist-card h2 {
+    margin-top: 0.5rem;
+    text-align: center;
+    color: white;
+  
+}
+
+/* Search input styling */
+input[type='text'] {
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 20rem;;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Button styling, similar to what was provided before */
+.submit-button {
+    padding: 0.5rem 1rem;
+    background-color: #cba915;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: auto;        /* This pushes the button to the bottom */
+    align-self: center;      /* This centers the button horizontally */
+    
+}
+
+button:hover {
+    background-color: #0056b3;
+}

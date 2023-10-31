@@ -1,7 +1,9 @@
 import React from 'react'
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {useLoaderData, useNavigate} from "react-router-dom"
 import IndividualPlaylist from './IndividualPlaylist';
+
+import './Playlist.css'
 
 
 function PlayList () {
@@ -10,23 +12,20 @@ const [search, setSearch] = useState('')
 
 const {allPlayLists} = useLoaderData()
 const navigate = useNavigate()
-// console.log(`WHOOOOOOOOOO ${allPlayLists}`)
 
 
+useEffect(()=> {
+  setDisplay(allPlayLists)
+}, [allPlayLists])
 
 // filter  logic ---------------------------------
-// search for a playlist
 function handleSearch(input){
   setSearch(input)
 }
-const filteredPlaylists = allPlayLists.filter((playlist) => playlist.title.toLowerCase().includes(search.toLowerCase()))
+const filteredPlaylists = display.filter((playlist) => playlist.title.toLowerCase().includes(search.toLowerCase()))
 
-// filter  logic ---------------------------------
+//--------------------------------------------------
 
-// function handleClick(){
-//   navigate('/ #form-id')
-
-// }
 function handleClick() {
   navigate('/');
   setTimeout(() => {
@@ -36,6 +35,13 @@ function handleClick() {
     }
   }, 100); // 100 milliseconds delay, adjust as needed
 }
+
+
+function handlePlaylistDeletion(id){
+  setDisplay((prevPlaylists)=> prevPlaylists.filter(playlist => playlist.id !== id))
+}
+
+
 
 
 
@@ -59,7 +65,7 @@ const mappedPlaylist = allPlayLists.map(playlist => <IndividualPlaylist key = {p
         ) : (
           <div className="playlist-container">
             {filteredPlaylists.map((playlist) => (
-              <IndividualPlaylist key={playlist.id} playlist={playlist} />
+              <IndividualPlaylist key={playlist.id} playlist={playlist} onDelete={handlePlaylistDeletion}/>
             ))}
           </div>
         )}

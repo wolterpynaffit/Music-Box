@@ -21,7 +21,8 @@ if __name__ == '__main__':
         Song.query.delete()
         User.query.delete()
 
-        # Seed users
+# ------------------------- USERS ----------------------------------------------
+
         print("Creating users...")
         user_list = []
         for _ in range(1):  # creating 15 random users
@@ -34,11 +35,13 @@ if __name__ == '__main__':
         db.session.add_all(user_list)
         db.session.commit()
 
+# ------------------------- SONGS ----------------------------------------------
         # Seed songs
         print("Creating songs...")
         song_list = []
-        for _ in range(50):  # creating 50 random songs
+        for _ in range(1):  # creating 50 random songs
             song = Song(
+                id=fake.name(),
                 title=fake.name(),
                 artist=fake.name(),
                 album=fake.word()
@@ -46,12 +49,12 @@ if __name__ == '__main__':
             song_list.append(song)
         db.session.add_all(song_list)
         db.session.commit()
-# -----------------------------------------------------------------------
+# -------------------------- PLAYLISTS -----------------------------------------
 
         # Seed playlists
         print("Creating playlists...")
         playlist_list = []
-        for _ in range(3):  # creating a playlist for each user
+        for _ in range(2):  # creating a playlist for each user
             playlist = Playlist(
                 title=f"{user.username}'s Favorites",
                 description=f"Some of {user.username}'s favorite tracks.",
@@ -61,16 +64,17 @@ if __name__ == '__main__':
         db.session.add_all(playlist_list)
         db.session.commit()
 
-# -----------------------------------------------------------------------
+# ----------------------- SONGS IN PLAYLIST ------------------------------------
         # Seed playlist songs
         print("Creating playlist songs...")
         playlist_song_list = []
         for playlist in playlist_list:
             # adding 5 random songs to each playlist
-            for _ in range(6):
+            for _ in range(2):
                 ps = PlaylistSongs(
                     playlist=playlist,
                     song=rc(song_list),
+                    user=user,
 
                 )
                 playlist_song_list.append(ps)

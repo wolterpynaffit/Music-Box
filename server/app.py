@@ -1,22 +1,36 @@
 #!/usr/bin/env python3
-
-# Standard library imports
-
 # Remote library imports
-from models import User, Playlist, Song, PlaylistSongs
-from flask_cors import CORS
-from flask import request, jsonify, session
+from sqlalchemy.orm import joinedload
+from flask import Flask, request, jsonify, session
 from flask_bcrypt import Bcrypt
+import requests
 
 # Local imports
-from spotify import get_token
-# application and connection to data
 from config import app, db
-import ipdb
-import requests
-CORS(app)
+from models import db, User, Playlist, Song, PlaylistSongs
+
+# application and connection to data
+from spotify import get_token
 
 # Add your model imports
+# This is handling the USER LOGIN ------------------------------------------------
+
+app.secret_key = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
+bcrypt = Bcrypt(app)
+
+
+# db.init_app(app)
+
+# bcrypt.generate_password_hash(password).decode('utf-8')
+# bcrypt.check_password_hash(hashed_password, password)
+
+
+def get_current_user():
+    return User.query.where(User.id == session.get("user_id")).first()
+
+
+def logged_in():
+    return bool(get_current_user())
 
 
 # Views go here!
@@ -24,8 +38,52 @@ CORS(app)
 @app.route('/')
 def index():
     return '<h1>Project Server</h1>'
+# -----------------------------------------------------------------------
+# --------------------- This is handling the USER LOGIN -----------------
+# -----------------------------------------------------------------------
+# USER SIGNUP #
 
-# --------------------- PLAYLIST ROUTES  -------------------------
+
+@app.post('/users/register')
+def create_user():
+    json = request.json
+    pw_hash = bcrypt.generate_password_hash(json['password']).decode('utf-8')
+    new_user = User(username=json['username'], password_hash=pw_hash)
+    db.session.add(new_user)
+    db.session.commit()
+    session['user_id'] = new_user.id
+    return new_user.to_dict(), 201
+
+
+# SESSION LOGIN/LOGOUT#
+
+@app.post('/login')
+def login():
+    json = request.json
+    user = User.query.where(User.username == json["username"]).first()
+    if user and bcrypt.check_password_hash(user.password_hash, json['password']):
+        session['user_id'] = user.id
+        return user.to_dict(), 201
+    else:
+        return {'message': 'Invalid username or password'}, 401
+
+
+@app.get('/current_session')
+def check_session():
+    if logged_in():
+        return get_current_user().to_dict(), 200
+    else:
+        return {}, 401
+
+
+@app.delete('/logout')
+def logout():
+    session['user_id'] = None
+    return {}, 204
+
+# -----------------------------------------------------------------------
+# --------------------- PLAYLIST ROUTES  --------------------------------
+# -----------------------------------------------------------------------
 
 
 @app.get('/playlists')
@@ -110,7 +168,9 @@ def update_playlist(id):
         db.session.commit()
         return jsonify(playlist.to_dict()), 200
     return jsonify({'message': 'Playlist not found'}), 404
-# --------------------- SONG ROUTES  -------------------------
+# -----------------------------------------------------------------------
+# --------------------- SONG ROUTES  -----------------------------------
+# -----------------------------------------------------------------------
 
 
 @app.get('/songs')
@@ -129,67 +189,9 @@ def get_song_id(id):
     return jsonify({'message': 'song not found'}), 404
 
 
-# --------------------- USERS  ROUTES  -------------------------
-# need helper methods for current user.
-@app.get('/users')
-def get_users():
-    users = User.query.all()
-    user_dict = [user.to_dict() for user in users]
-
-    return jsonify(user_dict), 200
-
-
-@app.get('/users/<int:id>')
-def get_user_byid(id):
-    user = User.query.filter(User.id == id).first()
-
-    if not user:
-        return jsonify({'message': 'User not found'}), 404
-
-    else:
-        return jsonify(user.to_dict()), 200
-
-
-@app.post('/users/register')
-def create_users():
-    data = request.json
-    new_user = User(**data)
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify(new_user.to_dict()), 201
-
-
-@app.post('/users/login')
-def create_login():
-    data = request.json
-    user = User.query.filter_by(email=data.get('email')).first()
-    if user and user.password == data.get('password'):
-        # how to hash password?
-        return jsonify(user.to_dict()), 200
-    return jsonify({'message': 'Invalid credentials'}), 401
-
-
-@app.put('/users/<int:id>')
-def update_user(id):
-    user = User.query.filter(User.id == id).first()
-    if user:
-        data = request.json
-        for key, value in data.items():
-            setattr(user, key, value)
-        db.session.commit()
-        return jsonify(user.to_dict()), 200
-    return jsonify({'message': 'User not found'}), 404
-
-
-@app.delete('/users/<int:id>')
-def delete_user(id):
-    user = User.query.filter(User.id == id).first()
-    if user:
-        db.session.delete(user)
-        db.session.commit()
-        return jsonify(user.to_dict()), 204
-    return jsonify({'message': 'User not found'}),
-# # -------------------- SPOTIFY  ----------------------
+# -----------------------------------------------------------------------
+# # -------------------- SPOTIFY  ---------------------------------------
+# -----------------------------------------------------------------------
 
 
 @app.route("/api/search", methods=["GET"])
@@ -256,6 +258,10 @@ def search_spotify():
 
 #     return jsonify({"message": "Song added successfully!"})
 
+# -----------------------------------------------------------------------
+# -------------- THIS IS ADDING  A SONG TO THE PLAYLIST ------------------
+# -----------------------------------------------------------------------
+
 
 @app.route("/api/addToPlaylist/<int:playlist_id>", methods=["POST"])
 def add_to_playlist(playlist_id):
@@ -265,60 +271,22 @@ def add_to_playlist(playlist_id):
         return jsonify({"message": "Playlist not found"}), 404
 
     song_data = request.json
-    print(song_data)
-    print('----------------------------------------------')
-    print('----------------------------------------------')
-    album = song_data.get('album')
-    print(album)
-    print('----------------------------------------------')
-    print('----------------------------------------------')
-    # this is displaying the artist name as 'artists' :['ABBA']
-    artist = song_data.get('artist')
-    print(artist)
-    print('----------------------------------------------')
-    print('----------------------------------------------')
-    id = song_data.get('id')
-    print(id)
-    print('----------------------------------------------')
-    print('----------------------------------------------')
-    image_url = song_data.get('image_url')
-    print(image_url)
-    print('----------------------------------------------')
-    print('----------------------------------------------')
-    name = song_data.get('name')
-    print(name)
-    print('----------------------------------------------')
-    print('----------------------------------------------')
 
-    # Check if song already exists in the database
+    # Check if the song already exists in the database
     song = Song.query.filter_by(
-        title=song_data["name"], artist=song_data['id']).first()
-
-    print('----------------------------------------------')
-    print('----------------------------------------------')
-    print(song)
-    # song is an object. Will return.... <Song 51>
-    print('----------------------------------------------')
-    print('----------------------------------------------')
-
-# Trying to access the value of the object to POST into database.
+        id=song_data['id']).first()
 
     # If the song doesn't exist, create a new song record
     if not song:
         song = Song(
-            title=song_data["name"], artist=song_data["id"], album=song_data.get("album", ""))
+            id=song_data['id'], title=song_data["name"], artist=song_data["artists"][0], album=song_data.get("album", ""))
         db.session.add(song)
         db.session.flush()  # To get the ID assigned before the commit
 
-    # Check if the song is already associated with the playlist
-    song_in_playlist = PlaylistSongs.query.filter_by(
-        playlist_id=playlist.id, song_id=song.id).first()
-
-    if not song_in_playlist:
-        # Create the association between the song and playlist
-        playlist_song_association = PlaylistSongs(
-            playlist_id=playlist.id, song_id=song.id)
-        db.session.add(playlist_song_association)
+    # Always create a new association between the song and playlist (even if it already exists)
+    playlist_song_association = PlaylistSongs(
+        playlist_id=playlist.id, song_id=song.id)
+    db.session.add(playlist_song_association)
 
     db.session.commit()
 
@@ -327,74 +295,6 @@ def add_to_playlist(playlist_id):
     })  # Serialize the song data to return
 
 
-# ----------------------------------------------------------
-
-
-# @app.route("/api/addToPlaylist/<int:id>/songs", methods=["POST"])
-# def add_to_playlist(id):
-#     playlist = Playlist.query.filter(Playlist.id == id).first()
-#     # checking to see if a playlist exists, if so we are adding to it...
-
-#     if playlist:
-#         songData = request.json
-#         print(songData)
-#         new_playlist_song = Song(**songData)
-#         playlist.songs.append(new_playlist_song)
-#         db.session.commit()
-#     return jsonify({"message": "Song added successfully!"})
-
-
-# # -------------------- LOGIN SETUP ----------------------
-
-# bcrypt = Bcrypt(app)
-
-
-# def get_current_user():
-#     return User.query.where(User.id == session.get("user_id")).first()
-
-
-# def logged_in():
-#     return bool(get_current_user())
-
-
-# @app.post('/login')
-# def login():
-#     json = request.json
-#     user = User.query.where(User.username == json["username"]).first()
-#     if user and bcrypt.check_password_hash(user.password_hash, json['password']):
-#         session['user_id'] = user.id
-#         return user.to_dict(), 201
-#     else:
-#         return {'message': 'Invalid username or password'}, 401
-
-
-# @app.get('/current_session')
-# def check_session():
-#     if logged_in():
-#         return get_current_user().to_dict(), 200
-#     else:
-#         return {}, 401
-
-
-# @app.delete('/logout')
-# def logout():
-#     session['user_id'] = None
-#     return {}, 204
-
-# # -------------------- SIGN UP ----------------------
-# # USER SIGNUP #
-
-
-# @app.post('/users')
-# def create_user():
-#     json = request.json
-#     pw_hash = bcrypt.generate_password_hash(json['password']).decode('utf-8')
-#     new_user = User(username=json['username'], password_hash=pw_hash)
-#     db.session.add(new_user)
-#     db.session.commit()
-#     session['user_id'] = new_user.id
-#     return new_user.to_dict(), 201
-# ipdb.set_trace()
 if __name__ == '__main__':
     print("hello")  # critically important
     app.run(port=5555, debug=True)

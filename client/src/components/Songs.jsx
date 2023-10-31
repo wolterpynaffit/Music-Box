@@ -8,7 +8,6 @@ function Songs() {
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
 
-    console.log(userPlaylist)
 
     // -------------------------------------------------------------
     // tyring using state to pass in details from individual component.... This method seems to use the URL details? 
@@ -34,15 +33,26 @@ function Songs() {
 
 
     const addToPlaylist = async (song) => {
+      
+      // console.log('-----------------------------------------------')
+      // const isSongInPlaylist = userPlaylist.some(playlistSong => playlistSong.id === song.id)
+      // console.log('-----------user playlist printing  below.......')
+      // console.log(userPlaylist)
 
-      const isSongInPlaylist = userPlaylist.some(playlistSong => playlistSong.id === song.id)
+      // console.log('-----------------------------------------------')
 
-      if (isSongInPlaylist){
-        console.log( 'This song has already been added to your playlist')
-      }
-      // TODO: Get user playlist and send playlist ID to backend route
-      // this is  grabbing the playlistID via location state written above
-      else {
+
+      // // if (isSongInPlaylist){
+      // //   console.log( 'This song has already been added to your playlist')
+      // // }
+
+      // console.log("Trying to add song with id:", song.id);
+      // console.log("Current playlist song id:", userPlaylist.map(s => s.id));
+      // console.log("Is song in playlist?", isSongInPlaylist);      
+      // // TODO: Get user playlist and send playlist ID to backend route
+      // // this is  grabbing the playlistID via location state written above
+
+   
       await fetch(`http://localhost:5555/api/addToPlaylist/${playlistID}`, {
         method: 'POST',
         headers: {
@@ -59,8 +69,8 @@ function Songs() {
       });
       // console.log(userPlaylist)
     };
-  }
-
+    
+  
 
     // this is the working code... neet to add CSS Classes and then delete the other code block below....
 
@@ -148,7 +158,7 @@ function Songs() {
                         {error && <p>Error: {error}</p>}
                         {songs.map((song, id) => (
                             <div key={id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                                <img src={song.image_url} alt="song cover" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
+                                <img src={song.image_url} alt="song cover" style={{ width: '200px', height: '200px', marginRight: '10px' }} />
                                 <div>
                                     <p>{song.name}</p>
                                     <p>{song.album}</p>

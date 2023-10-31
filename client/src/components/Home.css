@@ -6,13 +6,75 @@ form {
 }
 
 
+/* Form Container */
 .form-section {
-    background-color: rgb(242, 209, 147);
+    background-color: rgb(72, 113, 36);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem; /* Spacing between each form element */
+    /* width: 100%;
+    max-width: 300px;  */
+}
+
+
+/* this is meant to create a faded top on second section*/
+.form-id::before {
+    content: "";
+    position: absolute;
+    top: 20rem;
+    right: 0;
+    left: 0;
+    height: 20rem;
+    background: linear-gradient(to bottom, rgba(72, 113, 36, 1), rgba(72, 113, 36, 0));
+    pointer-events: none;
+}
+
+/* Default no-blur style for the first section */
+.vh-100.bg-image.img-blur {
+    transition: filter 0.3s ease;
+    filter: blur(0px);
+}
+
+/* Apply blur when the second section is targeted */
+#form-id:target ~ .vh-100.bg-image.img-blur {
+    filter: blur(5px);
+}
+
+
+
+
+/* Input Fields */
+.input-form  {
+    padding: 0.5rem;
+    /* border: 10px solid black; */
+    width: 100%;
+    font-size: 1rem;
+}
+
+/* Button */
+button {
+    padding: 0.5rem 1rem;
+    background-color: #8bce1e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #95b300;
 }
 /* ---------------- BUTTONS---------------- */
 
 /* this is animating start button */
 .blob { 
+    position: absolute;          /* Setting position as fixed */
+    top: 50%;                /* Adjust this as needed for the desired position from the top */
+    left: 50%;               /* Adjust this as needed for the desired position from the left */
     background : hsl(76, 84%, 35%, 80%);
     border-radius: 50%;
     margin: 10px;
@@ -40,7 +102,6 @@ form {
 		box-shadow: 0 0 0 0 rgba(76, 84, 35, 0.7);
 	}
 }
-
 
 /* ---------------------MEDIA QUERY ------------------- */
 
@@ -76,13 +137,21 @@ html {
     font-size: 15rem;
     text-align: center;
     text-shadow: 2px 8px rgb(173, 216, 230, 5);
-    margin-top: 20rem;
+    margin: 0;
 
+}
+
+.vh-100.bg-image.img-blur {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .get_started{
     text-align: center;
     padding: 8rem;
+    position: relative
 }
 
 .welcome {
@@ -90,9 +159,9 @@ html {
     font-size: 2rem;
 }
 
-.bg-image {
+/* .bg-image {
     background-image: url('/Users/tiffanypretlow/Desktop/Development/code/FIS-SE-NYC/phase-5/Music-Box/client/public/images/Pink_Floral_Retro_Wallpaper.jpeg');
-}
+} */
 
 /* blur on scroll */
 

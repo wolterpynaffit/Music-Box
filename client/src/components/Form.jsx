@@ -42,17 +42,17 @@ function Form () {
       <form onSubmit={handlePost}>
 
       <label>User ID:
-        <input type='text' name='id' />
+        <input className = 'input-form'  type='text' name='id' />
       </label>
         <label>Playlist Title:
-          <input type='text' name='title'/>
+          <input className = 'input-form' type='text' name='title'/>
         </label>
         <br />
         <label>Description:
-          <input type='text' name='description' />
+          <input className = 'input-form'  type='text' name='description' />
         </label>
         <br />
-        <button> SUBMIT </button>
+        <button className= 'submit-button'> SUBMIT </button>
       </form>
     </div>
     </>
