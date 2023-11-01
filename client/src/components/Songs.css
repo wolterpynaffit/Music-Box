@@ -1,0 +1,37 @@
+/* Styles for the main container */
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Styles for the song search section */
+.search-section {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.search-section input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.song-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.song-item img {
+    width: 200px;
+    height: 200px;
+    margin-right: 10px;
+}
+
+.song-item button {
+    margin-left: 10px;
+}
+
+/* Styles for the playlist section */
+.playlist-section {
+    flex: 1;
+}

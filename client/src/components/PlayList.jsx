@@ -22,7 +22,7 @@ useEffect(()=> {
 function handleSearch(input){
   setSearch(input)
 }
-const filteredPlaylists = display.filter((playlist) => playlist.title.toLowerCase().includes(search.toLowerCase()))
+const filteredPlaylists = allPlayLists.filter((playlist) => playlist.title.toLowerCase().includes(search.toLowerCase()))
 
 //--------------------------------------------------
 

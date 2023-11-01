@@ -8,9 +8,9 @@ const Home = () => {
     const handleScroll = () => {
       const section = document.querySelector('.vh-100.bg-image.img-blur');
       if (window.scrollY > 0) {
-        section.classList.add('scrolling');
+        section?.classList?.add('scrolling');
       } else {
-        section.classList.remove('scrolling');
+        section?.classList?.remove('scrolling');
       }
     };
 

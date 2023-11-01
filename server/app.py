@@ -88,6 +88,19 @@ def logout():
 # --------------------- PLAYLIST ROUTES  --------------------------------
 # -----------------------------------------------------------------------
 
+# this route is used inn the songs component useEffect to display 'persist' the users playlist.
+
+
+@app.get('/playlist_songs/<int:id>')
+def getUserPlaylist(id):
+    userPlaylists = PlaylistSongs.query.filter(
+        PlaylistSongs.playlist_id == id).all()
+
+    userPlaylist_dict = [userPlaylist.to_dict()
+                         for userPlaylist in userPlaylists]
+
+    return jsonify(userPlaylist_dict), 200
+
 
 @app.get('/playlists')
 def get_playlist():
@@ -261,11 +274,7 @@ def search_spotify():
 
 #     return jsonify({"message": "Song added successfully!"})
 
-# -----------------------------------------------------------------------
-# -------------- THIS IS ADDING  A SONG TO THE PLAYLIST ------------------
-# -----------------------------------------------------------------------
-
-
+# ----------------------------------------------------------------------- BELOW  IS ADDING  A SONG TO THE PLAYLIST ------------------------------------------------------------------
 @app.route("/api/addToPlaylist/<int:playlist_id>", methods=["POST"])
 def add_to_playlist(playlist_id):
     playlist = Playlist.query.filter(Playlist.id == playlist_id).first()
@@ -293,9 +302,8 @@ def add_to_playlist(playlist_id):
 
     db.session.commit()
 
-    return jsonify({
-        'name': song.title
-    })  # Serialize the song data to return
+    # Serialize the song data to return
+    return jsonify(playlist_song_association.to_dict())
 
 
 if __name__ == '__main__':
