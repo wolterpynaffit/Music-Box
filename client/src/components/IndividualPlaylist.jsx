@@ -1,9 +1,9 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import ShareModal from './ShareModal'
 
 import './Playlist.css'
-import './IndiePlaylist.css'
+
 
 
 
@@ -44,9 +44,7 @@ function IndividualPlaylist({playlist, onDelete}){
 
 
   function handleShareButton(){
-
       setShowShareModal(true);
-
     }
 
 
@@ -63,6 +61,7 @@ function IndividualPlaylist({playlist, onDelete}){
                     share
                 </span>
                 {showShareModal && <ShareModal onClose={() => setShowShareModal(false)} />}
+                {/* share modal is attempting to implement social share*/}
       </div>
     </div>
   )

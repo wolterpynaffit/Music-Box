@@ -52,7 +52,7 @@ class Playlist(db.Model, SerializerMixin):
 class Song(db.Model, SerializerMixin):
     __tablename__ = 'songs'
 
-    id = db.Column(db.Integer, primary_key=True, unique=True)
+    id = db.Column(db.String, primary_key=True, unique=True)
     title = db.Column(db.String, nullable=False)
     artist = db.Column(db.String, nullable=False)
     album = db.Column(db.String)

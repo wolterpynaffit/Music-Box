@@ -90,6 +90,8 @@ def logout():
 
 # this route is used inn the songs component useEffect to display 'persist' the users playlist.
 
+# note for PLAYLIST_SONGS route... Previously, only the first song in the database tied to a user would display. I wasn't able to see all the songs tied to the playlist even though it was populating in the backend. The query was origionally written as (PlaylistSongs.id == id).all(). With the following modifiction, all the songs added to a playlist displays in the frontend: (PlaylistSongs.playlist_id == id).all() -- Had to access the attribute playlist_id to get all the info.
+
 
 @app.get('/playlist_songs/<int:id>')
 def getUserPlaylist(id):
@@ -114,7 +116,7 @@ def get_playlist():
 @app.get('/playlist/<int:id>')
 def get_playlist_id(id):
 
-    playlists = Playlist.query.filter(Playlist.user_id == 1).all()
+    playlists = Playlist.query.filter(Playlist.user_id == id).all()
     if playlists:
         playlist_dict = [playlist.to_dict() for playlist in playlists]
         return jsonify(playlist_dict), 200
@@ -161,10 +163,33 @@ def create_playlist(id):
     #     return jsonify({"error": "No matching playlist found"}), 400
 
 
+# @app.delete('/playlists/<int:id>')
+# def delete_playlist(id):
+#     # delete wasn't working with query.filter[Playlist.id =id] The following correction successfully deletes. Whyyyy though?
+#     playlist = Playlist.query.filter_by(id=id).first()
+#     if playlist:
+#         print(f'deleting playlist with id: {id}')
+#         db.session.delete(playlist)
+#         db.session.commit()
+#         return jsonify(playlist.to_dict()), 204
+
+#     return jsonify({'message': 'Playlist not found'}), 404
+
 @app.delete('/playlists/<int:id>')
 def delete_playlist(id):
-    # delete wasn't working with query.filter[Playlist.id =id] The following correction successfully deletes. Whyyyy though?
+    # Get all PlaylistSong instances associated with this playlist
+    playlistSongs = PlaylistSongs.query.filter(PlaylistSongs.id == id).all()
+
+    # Delete each PlaylistSong associated with the playlist
+    for ps in playlistSongs:
+        db.session.delete(ps)
+
+    # Commit the deletion of PlaylistSongs to the database
+    db.session.commit()
+
+    # Get the playlist with the given id
     playlist = Playlist.query.filter_by(id=id).first()
+
     if playlist:
         print(f'deleting playlist with id: {id}')
         db.session.delete(playlist)
@@ -275,6 +300,8 @@ def search_spotify():
 #     return jsonify({"message": "Song added successfully!"})
 
 # ----------------------------------------------------------------------- BELOW  IS ADDING  A SONG TO THE PLAYLIST ------------------------------------------------------------------
+
+# NOTE: Sometimes may get CORS issue in frontend for whatever reason, and the server terminal error message may read something like 'datatype mismatch' this is because the id of the song is some weird string --- need to make sure the Song model or whatever has the right type db.String -- doing this should resolve the issue, then need to delete the instance and migratios and then run flask commands init, migrate, etc...
 @app.route("/api/addToPlaylist/<int:playlist_id>", methods=["POST"])
 def add_to_playlist(playlist_id):
     playlist = Playlist.query.filter(Playlist.id == playlist_id).first()
@@ -304,6 +331,7 @@ def add_to_playlist(playlist_id):
 
     # Serialize the song data to return
     return jsonify(playlist_song_association.to_dict())
+#  This was previously written as just playlist_song_association. without the playlist_soong_association.to_dict() This will have an error and have an issue with the title. T
 
 
 if __name__ == '__main__':

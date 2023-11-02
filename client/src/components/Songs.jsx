@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import {useLocation } from 'react-router-dom';
 import './Songs.css'
 
 
@@ -17,7 +17,8 @@ function Songs() {
 
 //_________ here, location = useLocation is RECIEVING the clicked playlist info for use in this component_____________
 const location = useLocation()
-const { title, id: playlistID, description } = location.state || {}; 
+// can also pass in description below
+const { title, id: playlistID } = location.state || {}; 
 // console.log(location)
 // console.log(title)
 // console.log(playlistID)
@@ -36,7 +37,7 @@ const handleSearch = () => {
     setError(err.message);
   });
 };
-// -------------------------------------------------------------------------------
+// -------------------- ADDING A SONG TO A PLAYLIST-----------------------
     const addToPlaylist = async (song) => {
 
       await fetch(`http://localhost:5555/api/addToPlaylist/${playlistID}`, {
@@ -49,11 +50,11 @@ const handleSearch = () => {
       .then(response => response.json())
       .then(data => {
         console.log('------user playlist printing below---------------')
-        console.log(userPlaylist)
-        console.log(userPlaylist[0])
-        console.log(userPlaylist[0].song)
-        console.log(userPlaylist[0].song.title)
-        console.log(userPlaylist[0].playlistID)
+        // console.log(userPlaylist)
+        // console.log(userPlaylist[0])
+        // console.log(userPlaylist[0].song)
+        // console.log(userPlaylist[0].song.title)
+        // console.log(userPlaylist[0].playlistID)
         console.log(data)
         
         console.log('--------------------------------------------------')
@@ -64,15 +65,16 @@ const handleSearch = () => {
       });
       // console.log(userPlaylist)
     };
-    // -------------------------------------------------------------------------------
-    // ---------------- BELOW ALLOWS PLAYLIST TO PERSIST -----------------------------
-    function whatIsUserPlaylist(){
-      userPlaylist.map((playlistSong) => {
-        console.log('------PLAYLISTSONG PRINTING BELOW---------------')
-        console.log(playlistSong);  // This will print the current playlistSong object
-        console.log('-----------------------------------------------')
-      })
-    }
+
+    // -------------------- BELOW ALLOWS PLAYLIST TO PERSIST -----------------------------
+
+    // function whatIsUserPlaylist(){
+    //   userPlaylist.map((playlistSong) => {
+    //     console.log('------PLAYLISTSONG PRINTING BELOW---------------')
+    //     console.log(playlistSong);  // This will print the current playlistSong object
+    //     console.log('-----------------------------------------------')
+    //   })
+    // }
     useEffect(()=> {
       fetch(`http://localhost:5555/playlist_songs/${playlistID}`)
       .then(response=> response.json())
@@ -80,13 +82,12 @@ const handleSearch = () => {
         console.log("Fetched data:", data);
         setUserPlaylist(data)
         console.log('------ what is user playlist function being called....---------------')
-   
-        whatIsUserPlaylist();
+  
         console.log('---------------------------------------------------------------------')
       })
     },[playlistID])
     
-// ------------------------------- THIS VERSION RESULTS IN ERROR, WONT ADD TO PLAYLIST BECAUSE CAN'T IDENTIFY ATTRIBUTES ----------------------------
+// ---------THIS VERSION RESULTS IN ERROR, WONT ADD TO PLAYLIST BECAUSE CAN'T IDENTIFY ATTRIBUTES -------------------
 // userPlaylist returns an array of objects [{}]
         return (
             <>
