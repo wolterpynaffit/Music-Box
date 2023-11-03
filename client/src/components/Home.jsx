@@ -23,16 +23,26 @@ const Home = () => {
 
   return (
     <>
-    <section className = 'vh-100 bg-image img-blur'>
-      <div className = 'blurred-img'>
-        <h1 className = "MB-title">
-         Music Box </h1>
+    <section className = 'vh-100 bg-image img-blur video-container'> 
+    
+    
+    <video autoPlay muted loop className="background-video">
+        <source src="/AdobeStock_557644881.mp4" type="video/mp4" />
+      </video>
+
+
+
+    <div className = 'blurred-img'>
+        <h1 className = "MB-title">Music Box </h1>
         <div className="get_started">
           <a href ="#form-id">
             <button className='blob'></button>
           </a>
-          <p> click here to get started</p>
         </div>
+        <span className = 'start-message'>
+          <p> click here to get started</p>
+          
+        </span>
       </div>
     </section>
 
@@ -46,3 +56,5 @@ const Home = () => {
 }
 
 export default Home
+
+

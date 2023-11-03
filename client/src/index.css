@@ -72,27 +72,13 @@
 /* Pacifico */
 
 
-h1 {
-  font-family: 'Pacifico';
-  color: rgb(40, 65, 25)
- }
 
  p {
   font-family: 'Montserrat', serif;
  }
 
 
- input {
-  height: 2rem;
-  width: 8rem;
-  border-radius: 10rem;
+ .submit-button {
+  background-color: transparent;
+  border: 1px solid black;
  }
-
- button {
-  border-radius: 10rem;
-  height: 2rem;
-  width:4rem;
- }
-
-
-

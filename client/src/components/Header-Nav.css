@@ -4,48 +4,52 @@
 
 nav {
     font-size: 2rem;
-    padding: 2rem;
-    /*  below will position the button  centered  with text and to the right*/
     display: flex;
     align-items: center;
-    width: 100;
-    margin-top: 2rem;;
-    
-    
-
+    width: 100%;  /* corrected width value */
+    position: relative;  /* added position */
+    z-index: 1;  /* corrected z-index value */
+    background-color:rgb(23, 23, 24)
 }
 
+/* nav::before {
+    content:'';
+    position: absolute;
+    top: -1rem;
+    right: 0;
+    left: 0;
+    height: 30rem;
+    background: linear-gradient(to bottom, rgb(173, 216, 230), rgba(122, 176, 74, 0));
+    z-index: 0;
+} */
 
 nav a {
-    color: inherit;
+    color: white;
     padding: 1.5rem;
-    
- 
     text-decoration: none;
     font-family: montserrat;
     font-size: 1rem;
-    
+    letter-spacing: 2px;
 }
 
 nav a:hover {
     color: rgb(226, 142, 15);
-
 }
 
 .signout_button {
-    color: white;;
-    background-color: rgb(63, 100, 63);
+    color:rgb(23, 23, 24);
+    background-color:  hsl(176, 100%, 50%);
     display: flex;
-    height: 65px;
+    height: 50px;
     width: 100px;
-    border-radius: 20rem;
-    /* -- this works with nav styling to center the button----- */
-    justify-content: center;  /* Horizontally centers the text/content */
-    align-items: center;      /* Vertically centers the text/content */
+    border-radius: 10%;
+    justify-content: center;
+    align-items: center;
     margin-left: auto;  
     margin-right: 4rem;
-    
+    font-family: montserrat;
+}
 
-
-
+.signout_button:hover {
+    background-color:  rgb(57, 209, 223)
 }

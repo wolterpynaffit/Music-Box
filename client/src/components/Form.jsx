@@ -1,5 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import './Home.css'
+
 
 function Form () {
   const navigate = useNavigate()
@@ -36,29 +38,36 @@ function Form () {
         }
       }
   return (
-    <>
-    
-    <div className = 'form-container' id='form-id'>
-      <form onSubmit={handlePost}>
+<>
+  <div className="container">
+    <div>
+      <h3> Create a new playlist</h3>
+      <span className="material-symbols-outlined">
+east
+</span>
 
+    </div>
+    <div className='form-container'>
+      <form onSubmit={handlePost}>
       <label>User ID:
-        <input className = 'input-form'  type='text' name='id' />
+        <input className='input-form' type='text' placeholder="Please enter a user ID..." name='id' />
       </label>
         <label>Playlist Title:
-          <input className = 'input-form' type='text' name='title'/>
+          <input className='input-form' type='text' name='title' placeholder='Name of playlist...'/>
         </label>
         <br />
         <label>Description:
-          <input className = 'input-form'  type='text' name='description' />
+          <input className='input-form' type='text' name='description' placeholder='Enter a description of your playlist...'/>
         </label>
         <br />
-        <button className= 'submit-button'> SUBMIT </button>
+        <button className='submit-button'> SUBMIT </button>
       </form>
     </div>
-    </>
+  </div>
+</>
   )
-}
-
+  }
+  
 export default Form
 
 

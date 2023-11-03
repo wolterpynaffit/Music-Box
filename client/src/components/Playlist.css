@@ -50,11 +50,14 @@
 
 /* Search input styling */
 input[type='text'] {
-    padding: 2rem;
+    padding: 4rem;
     border: 1px solid #ccc;
-    border-radius: 20rem;;
-    font-size: 1rem;
+    /* border-radius: 20rem; */
+    font-size: 2rem;
     margin-bottom: 1rem;
+    background-color: transparent;
+    color: white;
+    letter-spacing: 2px;
 }
 
 /* Button styling, similar to what was provided before */
@@ -66,9 +69,11 @@ input[type='text'] {
     border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
+    border-radius: 50px;
     transition: background-color 0.3s;
-    margin-top: auto;        /* This pushes the button to the bottom */
-    align-self: center;      /* This centers the button horizontally */
+    margin-top: 2rem;        /* This pushes the button to the bottom */
+    align-self: center; 
+         /* This centers the button horizontally */
     
 }
 
